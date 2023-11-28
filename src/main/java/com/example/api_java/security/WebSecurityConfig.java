@@ -23,15 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-//public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .anyRequest().permitAll(); // Cho phép truy cập mà không cần xác thực
-//        http.csrf().disable(); // Tắt CSRF protection (khuyến cáo chỉ sử dụng trong môi trường phát triển)
-//    }
-//}
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
@@ -77,9 +68,76 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // cấu hình phân quyền
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest().permitAll(); // Cho phép truy cập mà không cần xác thực
-        http.csrf().disable(); // Tắt CSRF protection (khuyến cáo chỉ sử dụng trong môi trường phát triển)
+//        http.authorizeRequests()
+//                .anyRequest().permitAll(); // Cho phép truy cập mà không cần xác thực
+//        http.csrf().disable(); // Tắt CSRF protection (khuyến cáo chỉ sử dụng trong môi trường phát triển)
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers("/api/auth/**",
+                        "/api/v1/public**",
+                        "/swagger-ui**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**")
+                .permitAll()
+                .antMatchers(HttpMethod.GET,
+                        "/api/businessTrips**",
+                        "/api/businessTrips/**",
+                        "/api/users/**",
+                        "/api/users**",
+                        "/api/images**",
+                        "/api/images/**",
+                        "/api/tasks**",
+                        "/api/tasks/**",
+                        "/api/reports**",
+                        "/api/reports/**",
+                        "/api/rates**",
+                        "/api/rates/**",
+                        "/api/partners**",
+                        "/api/partners/**")
+                .permitAll()
+                .antMatchers(HttpMethod.DELETE,
+                        "/api/businessTrips/**",
+                        "/api/images/**",
+                        "/api/users/**",
+                        "/api/tasks/**",
+                        "/api/reports/**")
+                .hasRole("QL")
+                .antMatchers(HttpMethod.DELETE,
+                        "/api/images/**")
+                .hasRole("NV")
+                .antMatchers(HttpMethod.POST,
+                        "/api/businessTrips**",
+                        "/api/images**",
+                        "/api/tasks**",
+                        "/api/reports**",
+                        "/api/rates**",
+                        "/api/partners**")
+                .hasRole("QL")
+                .antMatchers(HttpMethod.POST,
+                        "/api/reports/**",
+                        "/api/users/**",
+                        "/api/images**",
+                        "/api/rates/**")
+                .hasRole("NV")
+                .antMatchers(HttpMethod.PUT,
+                        "/api/businessTrips/**",
+                        "/api/images/**",
+                        "/api/tasks/**",
+                        "/api/reports/**",
+                        "/api/rates/**",
+                        "/api/partners/**")
+                .hasRole("QL")
+                .antMatchers(HttpMethod.PUT,
+                        "/api/reports/**",
+                        "/api/users/**",
+                        "/api/images**",
+                        "/api/rates/**")
+                .hasRole("NV")
+                .anyRequest().authenticated();
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 }
