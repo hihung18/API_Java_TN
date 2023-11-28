@@ -33,7 +33,14 @@ public class TaskServiceImpl implements IBaseService<TaskDTO, Long>, IModelMappe
         List<Task> tasks = taskRepository.findAll();
         return createFromEntities(tasks);
     }
-
+    public List<TaskDTO> findAllByUserID(Long userID) {
+        List<Task> tasks = taskRepository.findAllByUserDetail_UserId(userID);
+        return createFromEntities(tasks);
+    }
+    public List<TaskDTO> findAllByBusinessID(Long businessId) {
+        List<Task> tasks = taskRepository.findAllByBusinessTrip_BusinessTripId(businessId);
+        return createFromEntities(tasks);
+    }
     @Override
     public TaskDTO findById(Long id) {
         Optional<Task> taskOptional = taskRepository.findById(id);

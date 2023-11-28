@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 public class BusinessTripDTO {
     private Long businessTripId;
-    private Long userID;
+    private Long managerID;
     private Long partnerID;
     private String name_trip;
     private String detail_trip;

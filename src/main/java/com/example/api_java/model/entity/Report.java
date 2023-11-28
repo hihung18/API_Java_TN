@@ -20,7 +20,7 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long report_id;
+    private Long reportId;
 
     @Column(name = "report_detail")
     private String report_detail;

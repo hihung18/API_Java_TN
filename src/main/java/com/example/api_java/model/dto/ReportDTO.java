@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @Getter
 public class ReportDTO {
-    private Long report_id;
+    private Long reportId;
     private Long userID;
     private Long businessTripID;
     private String report_detail;

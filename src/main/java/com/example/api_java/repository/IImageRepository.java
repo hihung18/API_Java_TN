@@ -13,7 +13,5 @@ import java.util.Optional;
 public interface IImageRepository extends JpaRepository<Image, Long> {
     @Override
     Optional<Image> findById(Long s);
-
-    @Query(value = "SELECT * from image img where  img.report_id in ?1", nativeQuery = true)
-    List<Image> findAllByReportId(Long reportID);
+    List<Image> findAllByReport_ReportId(Long reportId);
 }

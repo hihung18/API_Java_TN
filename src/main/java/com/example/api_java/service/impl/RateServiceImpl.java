@@ -33,6 +33,14 @@ public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMappe
         List<Rate> rates = rateRepository.findAll();
         return createFromEntities(rates);
     }
+    public List<RateDTO> findAllByUserID(Long userID) {
+        List<Rate> rates = rateRepository.findAllByUserDetail_UserId(userID);
+        return createFromEntities(rates);
+    }
+    public List<RateDTO> findAllByBusinessID(Long businessTripId) {
+        List<Rate> rates = rateRepository.findAllByBusinessTrip_BusinessTripId(businessTripId);
+        return createFromEntities(rates);
+    }
 
     @Override
     public RateDTO findById(Long id) {

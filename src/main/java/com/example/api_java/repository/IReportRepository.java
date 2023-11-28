@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface IReportRepository  extends JpaRepository<Report, Long> {
     @Override
     Optional<Report> findById(Long aLong);
-//    List<Report> findAllByBusinessTrip_BusinessTripId(Long businessTripId);
+    List<Report> findAllByBusinessTrip_BusinessTripId(Long businessTripId);
 }

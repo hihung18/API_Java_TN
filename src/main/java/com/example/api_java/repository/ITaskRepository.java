@@ -11,9 +11,6 @@ import java.util.Optional;
 public interface ITaskRepository extends JpaRepository<Task, Long> {
     @Override
     Optional<Task> findById(Long aLong);
-
-//    List<Task> findAllByUserDetail_UserId(Long userId);
-//    List<Task> findAllByBusinessTrip_BusinessTripId(Long businesstripId);
-
-
+    List<Task> findAllByUserDetail_UserId(Long userId);
+    List<Task> findAllByBusinessTrip_BusinessTripId(Long businesstripId);
 }

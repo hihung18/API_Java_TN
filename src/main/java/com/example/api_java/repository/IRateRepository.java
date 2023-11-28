@@ -12,6 +12,6 @@ public interface IRateRepository extends JpaRepository<Rate, Long> {
     @Override
     Optional<Rate> findById(Long aLong);
 
-//    List<Rate> findAllByUserDetail_UserId(Long userId);
-//    List<Rate> findAllByBusinessTrip_BusinessTripId (Long businessTripId);
+    List<Rate> findAllByUserDetail_UserId(Long userId);
+    List<Rate> findAllByBusinessTrip_BusinessTripId (Long businessTripId);
 }

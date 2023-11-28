@@ -30,6 +30,10 @@ public class ImageServiceImpl implements IBaseService<ImageDTO, Long>, IModelMap
         List<Image> images = imageRepository.findAll();
         return createFromEntities(images);
     }
+    public List<ImageDTO> findAll(Long reportId ) {
+        List<Image> images = imageRepository.findAllByReport_ReportId(reportId);
+        return createFromEntities(images);
+    }
 
     @Override
     public ImageDTO findById(Long id) {
@@ -78,7 +82,7 @@ public class ImageServiceImpl implements IBaseService<ImageDTO, Long>, IModelMap
     public ImageDTO createFromE(Image entity) {
         ImageDTO imageDTO = modelMapper.map(entity, ImageDTO.class);
         if (entity.getReport() != null) {
-            imageDTO.setReportID(entity.getReport().getReport_id());
+            imageDTO.setReportID(entity.getReport().getReportId());
         }
         return imageDTO;
     }
