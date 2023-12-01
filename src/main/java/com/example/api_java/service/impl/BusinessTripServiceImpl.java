@@ -31,7 +31,7 @@ public class BusinessTripServiceImpl implements IBaseService<BusinessTripDTO, Lo
 
     @Override
     public List<BusinessTripDTO> findAll() {
-        List<BusinessTrip> trips = repository.findAll();
+        List<BusinessTrip> trips = repository.findAllOrderByTimeCreate();
         return createFromEntities(trips);
     }
     public List<BusinessTripDTO> findAllByManagerID(Long mnID) {

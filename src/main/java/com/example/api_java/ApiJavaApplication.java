@@ -24,11 +24,11 @@ import java.sql.SQLException;
 @SpringBootApplication
 @OpenAPIDefinition(
         info = @Info(
-                title = "Sale smartphone API docs",
+                title = "Quản lý chuyến công tác ngoài cơ quan",
                 description = "" +
-                        "API Ban Dien Thoai",
+                        "API quản lý chuyến công tác ngoài cơ quan, Java SpringBoot, Android Kotlin, Wesite ReactJS ",
                 contact = @Contact(
-                        name = "",
+                        name = "Quang Hung",
                         url = "",
                         email = "lequanghungb2@gmail.com"
                 ),

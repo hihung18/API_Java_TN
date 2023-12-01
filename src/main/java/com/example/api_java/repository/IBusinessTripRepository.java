@@ -14,10 +14,12 @@ import java.util.Optional;
 public interface IBusinessTripRepository extends JpaRepository<BusinessTrip, Long> {
     @Override
     Optional<BusinessTrip> findById(Long aLong);
-//    @Query(value = "SELECT * from businesstrip bt where  bt.id_manager in ?1", nativeQuery = true)
+    @Query(value = "SELECT * from businesstrip bt where  bt.id_manager = ?1 order by time_begin ASC", nativeQuery = true)
     List<BusinessTrip> findAllByUserDetail_UserId(Long managerId);
+    @Query(value = "SELECT * from businesstrip bt order by time_begin ASC", nativeQuery = true)
+    List<BusinessTrip> findAllOrderByTimeCreate();
 
-    @Query(value = "SELECT * FROM businesstrip bt INNER JOIN task t ON bt.id = t.id_business_trip WHERE t.id_employee = ?1", nativeQuery = true)
+    @Query(value = "SELECT distinct bt.* FROM businesstrip bt INNER JOIN task t ON bt.id = t.id_business_trip WHERE t.id_employee = ?1 order by time_begin ASC ", nativeQuery = true)
     List<BusinessTrip> findBusinessTripsByUserDetailUserId(Long userId);
 
 

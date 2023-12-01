@@ -26,7 +26,4 @@ public class SignupRequest {
     private String phoneNumber;
     private String address;
     private RoleName roleName;
-
-
-
 }

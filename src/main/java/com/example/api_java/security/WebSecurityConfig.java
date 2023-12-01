@@ -111,13 +111,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/businessTrips**",
                         "/api/images**",
                         "/api/tasks**",
+                        "/api/users**",
                         "/api/reports**",
                         "/api/rates**",
                         "/api/partners**")
                 .hasRole("QL")
                 .antMatchers(HttpMethod.POST,
                         "/api/reports/**",
-                        "/api/users/**",
                         "/api/images**",
                         "/api/rates/**")
                 .hasRole("NV")

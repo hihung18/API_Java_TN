@@ -18,6 +18,7 @@ public class BusinessTripDTO {
     private String location_trip;
     private Date time_begin_trip;
     private Date time_end_trip;
+    private Date time_cre_trip;
 
     @JsonIgnore
     private List<Long> reportIDs;
