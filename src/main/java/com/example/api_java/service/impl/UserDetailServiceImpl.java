@@ -62,9 +62,9 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
+                entity.getFullName(),
                 entity.getPhoneNumber(),
                 entity.getAddress(),
-                entity.getFullName(),
                 roles));
     }
 
@@ -153,10 +153,10 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
     }
     private void saveDetail(UserDetail entity, UserDetailDTO signUpRequest) {
         UserDetail userDetail = new UserDetail(entity.getUserId()
+                , signUpRequest.getEmail()
                 , signUpRequest.getUsername()
-                , signUpRequest.getAddress() == null ? "" : signUpRequest.getAddress()
-                , signUpRequest.getPassword()
-                ,signUpRequest.getFullName() == null ? signUpRequest.getUsername() : signUpRequest.getFullName()
+                , entity.getPassword()
+                ,signUpRequest.getFullName() == null ? "" : signUpRequest.getFullName()
                 ,signUpRequest.getPhoneNumber() == null ? "" : signUpRequest.getPhoneNumber()
                 ,signUpRequest.getAddress() == null ? "" : signUpRequest.getAddress()
                 , entity.getRole());
@@ -223,8 +223,8 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
         if (entity != null && dto != null) {
             entity.setRole(roleRepository.findByName(dto.getRoleName())
                     .orElseThrow(() -> new NotFoundException(UserDetail.class, dto.getUserId())));
-            if (dto.getPassword() != null)
-                entity.setPassword(encoder.encode(dto.getPassword()));
+//            if (dto.getPassword() != null)
+//                entity.setPassword(encoder.encode(dto.getPassword()));
             if (dto.getUsername() != null)
                 entity.setUsername(dto.getUsername());
             entity.setEmail(dto.getEmail());

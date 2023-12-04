@@ -30,6 +30,8 @@ public class BusinessTrip {
 
     @Column(name = "location" , nullable = true)
     private String location_trip;
+    @Column(name = "link_ggmap" , nullable = true)
+    private String link_googleMap;
 
     @Column(name = "time_begin", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)

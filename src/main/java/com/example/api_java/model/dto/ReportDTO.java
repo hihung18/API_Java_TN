@@ -16,7 +16,5 @@ public class ReportDTO {
     private Long businessTripID;
     private String report_detail;
     private Date time_cre_rp;
-    @NotBlank
-
     private List<String> imageUrls;
 }

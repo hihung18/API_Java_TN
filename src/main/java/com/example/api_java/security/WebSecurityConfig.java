@@ -117,14 +117,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/partners**")
                 .hasRole("QL")
                 .antMatchers(HttpMethod.POST,
-                        "/api/reports/**",
+                        "/api/reports**",
                         "/api/images**",
-                        "/api/rates/**")
+                        "/api/users/**",
+                        "/api/rates**")
                 .hasRole("NV")
                 .antMatchers(HttpMethod.PUT,
                         "/api/businessTrips/**",
                         "/api/images/**",
                         "/api/tasks/**",
+                        "/api/users/**",
                         "/api/reports/**",
                         "/api/rates/**",
                         "/api/partners/**")
@@ -132,6 +134,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT,
                         "/api/reports/**",
                         "/api/users/**",
+                        "/api/tasks/**",
                         "/api/images**",
                         "/api/rates/**")
                 .hasRole("NV")

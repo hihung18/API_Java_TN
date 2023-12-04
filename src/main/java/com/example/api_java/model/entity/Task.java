@@ -26,9 +26,10 @@ public class Task {
 
     @Column(name = "task_detail")
     private String detailTask;
-
-    @Column(name = "status")
-    private Long statusTask;
+    @Column(name = "status_confirm")
+    private Long statusConfirm;
+    @Column(name = "status_complete")
+    private Long statusComplete;
 
     @Column(name = "time_cre")
     @Temporal(TemporalType.TIMESTAMP)
