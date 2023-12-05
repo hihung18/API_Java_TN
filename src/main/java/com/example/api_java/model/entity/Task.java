@@ -28,6 +28,8 @@ public class Task {
     private String detailTask;
     @Column(name = "status_confirm")
     private Long statusConfirm;
+    @Column(name = "status_checkin")
+    private Long statusCheckIn;
     @Column(name = "status_complete")
     private Long statusComplete;
 

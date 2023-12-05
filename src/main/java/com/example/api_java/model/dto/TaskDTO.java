@@ -16,6 +16,7 @@ public class TaskDTO {
     private String nameTask;
     private String detailTask;
     private Long statusConfirm;
+    private Long statusCheckIn;
     private Long statusComplete;
     private Date time_cre_task;
 }
