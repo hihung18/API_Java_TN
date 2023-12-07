@@ -20,6 +20,7 @@ public class BusinessTripDTO {
     private Date time_begin_trip;
     private Date time_end_trip;
     private Date time_cre_trip;
+    private Long statusBusinessTrip;
 
     @JsonIgnore
     private List<Long> reportIDs;

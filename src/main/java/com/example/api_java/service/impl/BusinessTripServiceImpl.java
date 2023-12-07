@@ -46,7 +46,6 @@ public class BusinessTripServiceImpl implements IBaseService<BusinessTripDTO, Lo
         List<BusinessTrip> trips = repository.findAllByPartner_PartnerId(partnerID);
         return createFromEntities(trips);
     }
-
     @Override
     public BusinessTripDTO findById(Long id) {
         BusinessTrip entity = repository.findById(id)
