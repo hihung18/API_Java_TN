@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -35,8 +36,8 @@ public class TaskControllerImpl implements IBaseController<TaskDTO, Long, TaskSe
         return getService().findAll();
     }
     @PostMapping("/responseTokenDevice")
-    public ResponseEntity<String> updateTokenForTask( @RequestBody TaskDTO taskDTO) {
-        String tokenDevice = service.saveResponeTokenDevice(taskDTO);
+    public ResponseEntity<Map<String,String>> updateTokenForTask(@RequestBody TaskDTO taskDTO) {
+        Map<String,String> tokenDevice = service.saveResponeTokenDevice(taskDTO);
         if (tokenDevice != null) {
             return ResponseEntity.ok(tokenDevice);
         } else {

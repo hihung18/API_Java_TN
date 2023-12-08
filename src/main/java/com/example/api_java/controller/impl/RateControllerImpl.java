@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -34,10 +35,10 @@ public class RateControllerImpl implements IBaseController<RateDTO, Long, RateSe
         return getService().findAll();
     }
     @PostMapping("/listTokenDevice")
-    public ResponseEntity<List<String>> getListTokenDevice(@RequestBody RateDTO rateDTO) {
-        List<String> listTokenDevice = service.saveReturnListTokenDevice(rateDTO);
-        if (listTokenDevice != null) {
-            return ResponseEntity.ok(listTokenDevice);
+    public ResponseEntity<Map<String, List<String>>> getListTokenDevice(@RequestBody RateDTO rateDTO) {
+        Map<String, List<String>> tokenDevice = service.saveReturnListTokenDevice(rateDTO);
+        if (tokenDevice != null) {
+            return ResponseEntity.ok(tokenDevice);
         } else {
             return ResponseEntity.notFound().build();
         }

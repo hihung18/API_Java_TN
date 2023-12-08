@@ -11,7 +11,9 @@ import com.example.api_java.service.IModelMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -54,14 +56,16 @@ public class TaskServiceImpl implements IBaseService<TaskDTO, Long>, IModelMappe
         Task savedTask = taskRepository.save(taskEntity);
         return createFromE(savedTask);
     }
-    public String saveResponeTokenDevice(TaskDTO taskDTO) {
+    public Map<String,String> saveResponeTokenDevice(TaskDTO taskDTO) {
         Task taskEntity = createFromD(taskDTO);
         Task savedTask = taskRepository.save(taskEntity);
         TaskDTO taskRP = createFromE(savedTask);
         Long userId = taskRP.getUserID();
         Optional<UserDetail> userDetail = userDetailRepository.findById(userId);
+        Map<String,String> response = new HashMap<>();
+        response.put("tokenDevice",userDetail.get().getTokeDevice());
         if (userDetail.isPresent()) {
-            return userDetail.get().getTokeDevice();
+            return response;
         } else {
             return null;
         }

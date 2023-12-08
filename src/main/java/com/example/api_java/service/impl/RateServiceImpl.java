@@ -14,9 +14,7 @@ import com.example.api_java.service.IModelMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMapper<RateDTO, Rate> {
@@ -61,18 +59,20 @@ public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMappe
         Rate savedRate = rateRepository.save(rateEntity);
         return createFromE(savedRate);
     }
-    public List<String> saveReturnListTokenDevice(RateDTO rateDTO) {
+    public Map<String, List<String>> saveReturnListTokenDevice(RateDTO rateDTO) {
         Rate rateEntity = createFromD(rateDTO);
         Rate savedRate = rateRepository.save(rateEntity);
         RateDTO rateRP = createFromE(savedRate);
         Optional<BusinessTrip> businessTripOptional = businessTripRepository.findById(rateRP.getBusinessTripID());
         List<Task> tasks = taskRepository.findAllByBusinessTrip_BusinessTripId(businessTripOptional.get().getBusinessTripId());
         List<String> listTokenDevice = new ArrayList<>();
+        Map<String, List<String>> response = new HashMap<>();
         for (Task task : tasks ){
             Optional<UserDetail> userDetail = userDetailRepository.findById(task.getUserDetail().getUserId());
             listTokenDevice.add(userDetail.get().getTokeDevice());
         }
-        return listTokenDevice;
+        response.put("listTokenDevice",listTokenDevice);
+        return response;
     }
 
     @Override
