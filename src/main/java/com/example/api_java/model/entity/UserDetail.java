@@ -27,6 +27,8 @@ public class UserDetail {
     @Column(name = "username")
     private String username;
     private String password;
+    @Column(name = "token_device")
+    private String tokeDevice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     Role role;
@@ -42,7 +44,8 @@ public class UserDetail {
 
 
 
-    public UserDetail(Long userId, String email, String username, String password, String fullName, String phoneNumber, String address, Role role) {
+    public UserDetail(Long userId, String email, String username, String password, String fullName, String phoneNumber
+            , String address,String tokenDevice, Role role) {
         this.userId = userId;
         this.email = email;
         this.username = username;
@@ -50,6 +53,7 @@ public class UserDetail {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.tokeDevice = tokenDevice;
         this.role = role;
     }
 

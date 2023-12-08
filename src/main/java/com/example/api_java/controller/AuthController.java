@@ -1,14 +1,17 @@
 package com.example.api_java.controller;
 
-import com.example.api_java.model.dto.ChangePassByEmailRequest;
-import com.example.api_java.model.dto.ChangePassRequest;
-import com.example.api_java.model.dto.LoginRequest;
-import com.example.api_java.model.dto.SignupRequest;
+import com.example.api_java.model.dto.*;
 import com.example.api_java.service.impl.UserDetailServiceImpl;
+import com.google.api.client.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600) //cho phép http, get post..
@@ -16,6 +19,8 @@ import javax.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
     private final UserDetailServiceImpl service;
+    private static final String FCM_API = "https://fcm.googleapis.com/fcm/send";
+    private static final String SERVER_KEY = "YOUR_SERVER_API_KEY";
 
     public AuthController(UserDetailServiceImpl service) {
 
@@ -45,4 +50,5 @@ public class AuthController {
 
         return service.changePassByEmail(signUpRequest);
     }
+
 }

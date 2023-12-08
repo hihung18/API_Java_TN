@@ -25,5 +25,6 @@ public class UserDetailDTO {
     private String fullName;
     private String phoneNumber;
     private String address;
+    private String tokeDevice;
     private RoleName roleName;
 }

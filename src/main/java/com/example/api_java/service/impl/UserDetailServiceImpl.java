@@ -65,6 +65,7 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
                 entity.getFullName(),
                 entity.getPhoneNumber(),
                 entity.getAddress(),
+                entity.getTokeDevice(),
                 roles));
     }
 
@@ -129,7 +130,8 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
 
     private UserDetail getDetail(Long id) {
         UserDetail detail = userDetailRepository.findById(id)
-                .orElse(new UserDetail(1L, "", "", "","","","",null));
+                .orElse(new UserDetail(1L, "", "", "",""
+                        ,"","","",null));
         return detail;
     }
 
@@ -159,6 +161,7 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
                 ,signUpRequest.getFullName() == null ? "" : signUpRequest.getFullName()
                 ,signUpRequest.getPhoneNumber() == null ? "" : signUpRequest.getPhoneNumber()
                 ,signUpRequest.getAddress() == null ? "" : signUpRequest.getAddress()
+                ,signUpRequest.getTokeDevice() == null ? "" : signUpRequest.getTokeDevice()
                 , entity.getRole());
         userDetailRepository.save(userDetail);
     }
@@ -223,8 +226,6 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
         if (entity != null && dto != null) {
             entity.setRole(roleRepository.findByName(dto.getRoleName())
                     .orElseThrow(() -> new NotFoundException(UserDetail.class, dto.getUserId())));
-//            if (dto.getPassword() != null)
-//                entity.setPassword(encoder.encode(dto.getPassword()));
             if (dto.getUsername() != null)
                 entity.setUsername(dto.getUsername());
             entity.setEmail(dto.getEmail());
