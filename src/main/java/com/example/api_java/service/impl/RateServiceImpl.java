@@ -1,15 +1,20 @@
 package com.example.api_java.service.impl;
 
 import com.example.api_java.model.dto.RateDTO;
+import com.example.api_java.model.entity.BusinessTrip;
 import com.example.api_java.model.entity.Rate;
+import com.example.api_java.model.entity.Task;
+import com.example.api_java.model.entity.UserDetail;
 import com.example.api_java.repository.IBusinessTripRepository;
 import com.example.api_java.repository.IRateRepository;
+import com.example.api_java.repository.ITaskRepository;
 import com.example.api_java.repository.IUserDetailRepository;
 import com.example.api_java.service.IBaseService;
 import com.example.api_java.service.IModelMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,13 +23,15 @@ public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMappe
     private final IRateRepository rateRepository;
     private final IBusinessTripRepository businessTripRepository;
     private final IUserDetailRepository userDetailRepository;
+    private final ITaskRepository taskRepository;
 
     private final ModelMapper modelMapper;
 
-    public RateServiceImpl(IRateRepository rateRepository, IBusinessTripRepository businessTripRepository, IUserDetailRepository userDetailRepository, ModelMapper modelMapper) {
+    public RateServiceImpl(IRateRepository rateRepository, IBusinessTripRepository businessTripRepository, IUserDetailRepository userDetailRepository, ITaskRepository taskRepository, ModelMapper modelMapper) {
         this.rateRepository = rateRepository;
         this.businessTripRepository = businessTripRepository;
         this.userDetailRepository = userDetailRepository;
+        this.taskRepository = taskRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -53,6 +60,19 @@ public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMappe
         Rate rateEntity = createFromD(rateDTO);
         Rate savedRate = rateRepository.save(rateEntity);
         return createFromE(savedRate);
+    }
+    public List<String> saveReturnListTokenDevice(RateDTO rateDTO) {
+        Rate rateEntity = createFromD(rateDTO);
+        Rate savedRate = rateRepository.save(rateEntity);
+        RateDTO rateRP = createFromE(savedRate);
+        Optional<BusinessTrip> businessTripOptional = businessTripRepository.findById(rateRP.getBusinessTripID());
+        List<Task> tasks = taskRepository.findAllByBusinessTrip_BusinessTripId(businessTripOptional.get().getBusinessTripId());
+        List<String> listTokenDevice = new ArrayList<>();
+        for (Task task : tasks ){
+            Optional<UserDetail> userDetail = userDetailRepository.findById(task.getUserDetail().getUserId());
+            listTokenDevice.add(userDetail.get().getTokeDevice());
+        }
+        return listTokenDevice;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.api_java.service.impl;
 
 import com.example.api_java.model.dto.TaskDTO;
 import com.example.api_java.model.entity.Task;
+import com.example.api_java.model.entity.UserDetail;
 import com.example.api_java.repository.IBusinessTripRepository;
 import com.example.api_java.repository.ITaskRepository;
 import com.example.api_java.repository.IUserDetailRepository;
@@ -53,7 +54,18 @@ public class TaskServiceImpl implements IBaseService<TaskDTO, Long>, IModelMappe
         Task savedTask = taskRepository.save(taskEntity);
         return createFromE(savedTask);
     }
-
+    public String saveResponeTokenDevice(TaskDTO taskDTO) {
+        Task taskEntity = createFromD(taskDTO);
+        Task savedTask = taskRepository.save(taskEntity);
+        TaskDTO taskRP = createFromE(savedTask);
+        Long userId = taskRP.getUserID();
+        Optional<UserDetail> userDetail = userDetailRepository.findById(userId);
+        if (userDetail.isPresent()) {
+            return userDetail.get().getTokeDevice();
+        } else {
+            return null;
+        }
+    }
     @Override
     public TaskDTO update(Long id, TaskDTO taskDTO) {
         Optional<Task> taskOptional = taskRepository.findById(id);
@@ -65,7 +77,6 @@ public class TaskServiceImpl implements IBaseService<TaskDTO, Long>, IModelMappe
         }
         return null; // hoặc ném ra một exception cho trường hợp không tìm thấy
     }
-
     @Override
     public TaskDTO delete(Long id) {
         Optional<Task> taskOptional = taskRepository.findById(id);

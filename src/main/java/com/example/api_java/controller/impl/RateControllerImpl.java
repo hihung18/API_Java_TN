@@ -9,6 +9,7 @@ import com.example.api_java.service.impl.RateServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,5 +32,14 @@ public class RateControllerImpl implements IBaseController<RateDTO, Long, RateSe
         if (businessTripID != null)
             return getService().findAllByBusinessID(businessTripID);
         return getService().findAll();
+    }
+    @PostMapping("/listTokenDevice")
+    public ResponseEntity<List<String>> getListTokenDevice(@RequestBody RateDTO rateDTO) {
+        List<String> listTokenDevice = service.saveReturnListTokenDevice(rateDTO);
+        if (listTokenDevice != null) {
+            return ResponseEntity.ok(listTokenDevice);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

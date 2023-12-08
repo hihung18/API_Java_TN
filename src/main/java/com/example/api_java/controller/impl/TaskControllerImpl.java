@@ -9,9 +9,11 @@ import com.example.api_java.service.impl.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -31,5 +33,14 @@ public class TaskControllerImpl implements IBaseController<TaskDTO, Long, TaskSe
         if (businessTripID != null)
             return getService().findAllByBusinessID(businessTripID);
         return getService().findAll();
+    }
+    @PostMapping("/responseTokenDevice")
+    public ResponseEntity<String> updateTokenForTask( @RequestBody TaskDTO taskDTO) {
+        String tokenDevice = service.saveResponeTokenDevice(taskDTO);
+        if (tokenDevice != null) {
+            return ResponseEntity.ok(tokenDevice);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
