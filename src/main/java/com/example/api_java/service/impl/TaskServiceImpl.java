@@ -64,6 +64,8 @@ public class TaskServiceImpl implements IBaseService<TaskDTO, Long>, IModelMappe
         Optional<UserDetail> userDetail = userDetailRepository.findById(userId);
         Map<String,String> response = new HashMap<>();
         response.put("tokenDevice",userDetail.get().getTokeDevice());
+        response.put("userFullName",userDetail.get().getFullName());
+
         if (userDetail.isPresent()) {
             return response;
         } else {
@@ -79,7 +81,7 @@ public class TaskServiceImpl implements IBaseService<TaskDTO, Long>, IModelMappe
             Task savedTask = taskRepository.save(updatedTask);
             return createFromE(savedTask);
         }
-        return null; // hoặc ném ra một exception cho trường hợp không tìm thấy
+        return null;
     }
     @Override
     public TaskDTO delete(Long id) {

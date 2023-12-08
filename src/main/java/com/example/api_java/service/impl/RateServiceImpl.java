@@ -65,12 +65,13 @@ public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMappe
         RateDTO rateRP = createFromE(savedRate);
         Optional<BusinessTrip> businessTripOptional = businessTripRepository.findById(rateRP.getBusinessTripID());
         List<Task> tasks = taskRepository.findAllByBusinessTrip_BusinessTripId(businessTripOptional.get().getBusinessTripId());
-        List<String> listTokenDevice = new ArrayList<>();
+        Set<String> uniqueTokens = new LinkedHashSet<>();
         Map<String, List<String>> response = new HashMap<>();
         for (Task task : tasks ){
             Optional<UserDetail> userDetail = userDetailRepository.findById(task.getUserDetail().getUserId());
-            listTokenDevice.add(userDetail.get().getTokeDevice());
+            uniqueTokens.add(userDetail.get().getTokeDevice());
         }
+        List<String> listTokenDevice = new ArrayList<>(uniqueTokens);
         response.put("listTokenDevice",listTokenDevice);
         return response;
     }
