@@ -197,7 +197,6 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
         }
         return createFromE(userOptional.get());
     }
-
     @Override
     public UserDetail createFromD(UserDetailDTO dto) {
         UserDetail user = modelMapper.map(dto, UserDetail.class);
@@ -205,7 +204,6 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
         user.setPassword(encoder.encode(dto.getPassword()));
         return user;
     }
-
     @Override
     public UserDetailDTO createFromE(UserDetail entity) {
         UserDetailDTO dto = modelMapper.map(entity, UserDetailDTO.class);
@@ -215,12 +213,10 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
             dto.setRoleName(entity.getRole().getName());
             dto.setFullName(detail.getFullName());
         } catch (Exception e) {
-
         }
         dto.setPassword("");
         return dto;
     }
-
     @Override
     public UserDetail updateEntity(UserDetail entity, UserDetailDTO dto) {
         if (entity != null && dto != null) {

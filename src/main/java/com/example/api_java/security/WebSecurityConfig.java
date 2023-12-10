@@ -80,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui**",
                         "/swagger-ui/**",
                         "/api/tasks/**",
+                        "/api/users/**",
                         "/v3/api-docs/**")
                 .permitAll()
                 .antMatchers(HttpMethod.GET,
