@@ -26,17 +26,17 @@ public class RateControllerImpl implements IBaseController<RateDTO, Long, RateSe
     private RateServiceImpl service;
 
     @GetMapping("")
-    public List<RateDTO> getAll(@RequestParam(required = false) Long userID,
-                                @RequestParam(required = false) Long businessTripID) {
-        if (userID != null)
-            return getService().findAllByUserID(userID);
+    public List<RateDTO> getAll(@RequestParam(required = false) Long businessTripID,
+                                @RequestParam(required = false) Long taskID) {
         if (businessTripID != null)
-            return getService().findAllByBusinessID(businessTripID);
+            return getService().findAllByBusinessTripID(businessTripID);
+        if (taskID != null)
+            return getService().findAllByTaskID(taskID);
         return getService().findAll();
     }
     @PostMapping("/listTokenDevice")
-    public ResponseEntity<Map<String, List<String>>> getListTokenDevice(@RequestBody RateDTO rateDTO) {
-        Map<String, List<String>> tokenDevice = service.saveReturnListTokenDevice(rateDTO);
+    public ResponseEntity<Map<String, String>> getListTokenDevice(@RequestBody RateDTO rateDTO) {
+        Map<String, String> tokenDevice = service.saveReturnListTokenDevice(rateDTO);
         if (tokenDevice != null) {
             return ResponseEntity.ok(tokenDevice);
         } else {

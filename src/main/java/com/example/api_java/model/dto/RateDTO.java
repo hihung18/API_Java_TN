@@ -10,7 +10,7 @@ import java.util.Date;
 @Getter
 public class RateDTO {
     private Long rateId;
-    private Long businessTripID;
+    private Long taskID;
     private Long userID;
     @NotNull
     private String commentRate;

@@ -31,12 +31,17 @@ public class Report {
     private Date time_cre_rp;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_business_trip")
-    private BusinessTrip businessTrip;
+    @JoinColumn(name = "id_task")
+    private Task task;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_employee")
-    private UserDetail userDetail;
+
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "id_business_trip")
+//    private BusinessTrip businessTrip;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "id_employee")
+//    private UserDetail userDetail;
 
     @Transient
     @OneToMany(fetch = FetchType.LAZY)

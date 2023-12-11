@@ -30,8 +30,10 @@ public class BusinessTrip {
 
     @Column(name = "location" , nullable = true)
     private String location_trip;
-    @Column(name = "link_ggmap" , nullable = true)
-    private String link_googleMap;
+    @Column(name = "latitude" , nullable = true)
+    private Double latitudeTrip;
+    @Column(name = "longitude" , nullable = true)
+    private Double longitudeTrip;
     @Column(name = "status" , nullable = true)
     private String statusBusinessTrip;
 
@@ -59,13 +61,13 @@ public class BusinessTrip {
     @JoinColumn(name = "id_manager")
     private UserDetail userDetail;
 
-    @Transient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "businessTrip")
-    private List<Report> reports;
-
-    @Transient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "businessTrip")
-    private List<Rate> rates;
+//    @Transient
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "businessTrip")
+//    private List<Report> reports;
+//
+//    @Transient
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "businessTrip")
+//    private List<Rate> rates;
 
     @Transient
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "businessTrip")

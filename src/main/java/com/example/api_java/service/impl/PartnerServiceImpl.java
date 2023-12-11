@@ -1,7 +1,9 @@
 package com.example.api_java.service.impl;
 
+import com.example.api_java.exception.NotFoundException;
 import com.example.api_java.model.dto.PartnerDTO;
 import com.example.api_java.model.entity.Partner;
+import com.example.api_java.model.entity.Rate;
 import com.example.api_java.repository.IPartnerRepository;
 import com.example.api_java.service.IBaseService;
 import com.example.api_java.service.IModelMapper;
@@ -30,7 +32,8 @@ public class PartnerServiceImpl implements IBaseService<PartnerDTO, Long>, IMode
     @Override
     public PartnerDTO findById(Long id) {
         Optional<Partner> partnerOptional = partnerRepository.findById(id);
-        return partnerOptional.map(this::createFromE).orElse(null);
+        return partnerOptional.map(this::createFromE)
+                .orElseThrow(() -> new NotFoundException(Partner.class, id));
     }
 
     @Override

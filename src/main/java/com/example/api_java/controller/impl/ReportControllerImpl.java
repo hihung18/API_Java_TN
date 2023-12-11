@@ -22,9 +22,12 @@ public class ReportControllerImpl implements IBaseController<ReportDTO, Long, Re
     @Getter
     private ReportServiceImpl service;
     @GetMapping("")
-    public List<ReportDTO> getAll(@RequestParam(required = false) Long businessTripID) {
+    public List<ReportDTO> getAll(@RequestParam(required = false) Long businessTripID,
+                                  @RequestParam(required = false) Long taskID) {
         if (businessTripID != null)
-            return getService().findAll(businessTripID);
+            return getService().findAllByBusinessTripID(businessTripID);
+        else if (taskID != null)
+            return getService().findAllByTaskID(taskID);
         else
             return getService().findAll();
     }

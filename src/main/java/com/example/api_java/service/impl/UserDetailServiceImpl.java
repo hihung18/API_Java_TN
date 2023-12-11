@@ -143,7 +143,8 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
     @Override
     public UserDetailDTO findById(Long id) {
         Optional<UserDetail> userOptional = userDetailRepository.findById(id);
-        return userOptional.map(this::createFromE).orElseThrow(() -> new NotFoundException(UserDetail.class, id));
+        return userOptional.map(this::createFromE)
+                .orElseThrow(() -> new NotFoundException(UserDetail.class, id));
     }
 
 

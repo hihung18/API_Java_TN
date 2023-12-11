@@ -1,8 +1,10 @@
 package com.example.api_java.service.impl;
 
 
+import com.example.api_java.exception.NotFoundException;
 import com.example.api_java.model.dto.ImageDTO;
 import com.example.api_java.model.entity.Image;
+import com.example.api_java.model.entity.Rate;
 import com.example.api_java.repository.IImageRepository;
 import com.example.api_java.repository.IReportRepository;
 import com.example.api_java.service.IBaseService;
@@ -38,7 +40,8 @@ public class ImageServiceImpl implements IBaseService<ImageDTO, Long>, IModelMap
     @Override
     public ImageDTO findById(Long id) {
         Optional<Image> imageOptional = imageRepository.findById(id);
-        return imageOptional.map(this::createFromE).orElse(null);
+        return imageOptional.map(this::createFromE)
+                .orElseThrow(() -> new NotFoundException(Image.class, id));
     }
 
     @Override

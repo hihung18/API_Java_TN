@@ -28,7 +28,9 @@ public class TaskControllerImpl implements IBaseController<TaskDTO, Long, TaskSe
 
     @GetMapping("")
     public List<TaskDTO> getAll(@RequestParam(required = false) Long userID,
-                                @RequestParam(required = false) Long businessTripID) {
+                                @RequestParam(required = false) Long businessTripID,
+                                @RequestParam(required = false) Long reportID,
+                                @RequestParam(required = false) Long rateID) {
         if (userID != null)
             return getService().findAllByUserID(userID);
         if (businessTripID != null)

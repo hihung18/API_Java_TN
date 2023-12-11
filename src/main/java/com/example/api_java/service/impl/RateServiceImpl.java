@@ -1,11 +1,11 @@
 package com.example.api_java.service.impl;
 
+import com.example.api_java.exception.NotFoundException;
 import com.example.api_java.model.dto.RateDTO;
 import com.example.api_java.model.entity.BusinessTrip;
 import com.example.api_java.model.entity.Rate;
 import com.example.api_java.model.entity.Task;
 import com.example.api_java.model.entity.UserDetail;
-import com.example.api_java.repository.IBusinessTripRepository;
 import com.example.api_java.repository.IRateRepository;
 import com.example.api_java.repository.ITaskRepository;
 import com.example.api_java.repository.IUserDetailRepository;
@@ -19,15 +19,13 @@ import java.util.*;
 @Service
 public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMapper<RateDTO, Rate> {
     private final IRateRepository rateRepository;
-    private final IBusinessTripRepository businessTripRepository;
     private final IUserDetailRepository userDetailRepository;
     private final ITaskRepository taskRepository;
 
     private final ModelMapper modelMapper;
 
-    public RateServiceImpl(IRateRepository rateRepository, IBusinessTripRepository businessTripRepository, IUserDetailRepository userDetailRepository, ITaskRepository taskRepository, ModelMapper modelMapper) {
+    public RateServiceImpl(IRateRepository rateRepository,  IUserDetailRepository userDetailRepository, ITaskRepository taskRepository, ModelMapper modelMapper) {
         this.rateRepository = rateRepository;
-        this.businessTripRepository = businessTripRepository;
         this.userDetailRepository = userDetailRepository;
         this.taskRepository = taskRepository;
         this.modelMapper = modelMapper;
@@ -38,19 +36,20 @@ public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMappe
         List<Rate> rates = rateRepository.findAll();
         return createFromEntities(rates);
     }
-    public List<RateDTO> findAllByUserID(Long userID) {
-        List<Rate> rates = rateRepository.findAllByUserDetail_UserId(userID);
+    public List<RateDTO> findAllByTaskID(Long taskID) {
+        List<Rate> rates = rateRepository.findAllByTask_TaskId(taskID);
         return createFromEntities(rates);
     }
-    public List<RateDTO> findAllByBusinessID(Long businessTripId) {
-        List<Rate> rates = rateRepository.findAllByBusinessTrip_BusinessTripId(businessTripId);
+    public List<RateDTO> findAllByBusinessTripID(Long businessTripID) {
+        List<Rate> rates = rateRepository.findAllByBusinessID(businessTripID);
         return createFromEntities(rates);
     }
 
     @Override
     public RateDTO findById(Long id) {
         Optional<Rate> rateOptional = rateRepository.findById(id);
-        return rateOptional.map(this::createFromE).orElse(null);
+        return rateOptional.map(this::createFromE)
+                .orElseThrow(() -> new NotFoundException(Rate.class, id));
     }
 
     @Override
@@ -59,20 +58,14 @@ public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMappe
         Rate savedRate = rateRepository.save(rateEntity);
         return createFromE(savedRate);
     }
-    public Map<String, List<String>> saveReturnListTokenDevice(RateDTO rateDTO) {
+    public Map<String, String> saveReturnListTokenDevice(RateDTO rateDTO) {
         Rate rateEntity = createFromD(rateDTO);
         Rate savedRate = rateRepository.save(rateEntity);
         RateDTO rateRP = createFromE(savedRate);
-        Optional<BusinessTrip> businessTripOptional = businessTripRepository.findById(rateRP.getBusinessTripID());
-        List<Task> tasks = taskRepository.findAllByBusinessTrip_BusinessTripId(businessTripOptional.get().getBusinessTripId());
-        Set<String> uniqueTokens = new LinkedHashSet<>();
-        Map<String, List<String>> response = new HashMap<>();
-        for (Task task : tasks ){
-            Optional<UserDetail> userDetail = userDetailRepository.findById(task.getUserDetail().getUserId());
-            uniqueTokens.add(userDetail.get().getTokeDevice());
-        }
-        List<String> listTokenDevice = new ArrayList<>(uniqueTokens);
-        response.put("listTokenDevice",listTokenDevice);
+        Optional<Task> taskOptional = taskRepository.findById(rateRP.getTaskID());
+        Optional<UserDetail> userDetailOptional = userDetailRepository.findById(taskOptional.get().getUserDetail().getUserId());
+        Map<String, String> response = new HashMap<>();
+        response.put("tokendevice",userDetailOptional.get().getTokeDevice());
         return response;
     }
 
@@ -102,7 +95,7 @@ public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMappe
     @Override
     public Rate createFromD(RateDTO dto) {
         Rate rate = modelMapper.map(dto, Rate.class);
-        rate.setBusinessTrip(businessTripRepository.findById(dto.getBusinessTripID()).orElse(null));
+        rate.setTask(taskRepository.findById(dto.getTaskID()).orElse(null));
         rate.setUserDetail(userDetailRepository.findById(dto.getUserID()).orElse(null));
         return rate;
     }
@@ -110,8 +103,8 @@ public class RateServiceImpl implements IBaseService<RateDTO, Long>, IModelMappe
     @Override
     public RateDTO createFromE(Rate entity) {
         RateDTO rateDTO = modelMapper.map(entity, RateDTO.class);
-        if (entity.getBusinessTrip() != null) {
-            rateDTO.setBusinessTripID(entity.getBusinessTrip().getBusinessTripId());
+        if (entity.getTask() != null) {
+            rateDTO.setTaskID(entity.getTask().getTaskId());
         }
         if (entity.getUserDetail() != null) {
             rateDTO.setUserID(entity.getUserDetail().getUserId());

@@ -1,6 +1,8 @@
 package com.example.api_java.service.impl;
 
+import com.example.api_java.exception.NotFoundException;
 import com.example.api_java.model.dto.TaskDTO;
+import com.example.api_java.model.entity.Rate;
 import com.example.api_java.model.entity.Task;
 import com.example.api_java.model.entity.UserDetail;
 import com.example.api_java.repository.IBusinessTripRepository;
@@ -44,10 +46,19 @@ public class TaskServiceImpl implements IBaseService<TaskDTO, Long>, IModelMappe
         List<Task> tasks = taskRepository.findAllByBusinessTrip_BusinessTripId(businessId);
         return createFromEntities(tasks);
     }
+//    public List<TaskDTO> findByReportID(Long reportID) {
+//        List<Task> tasks = taskRepository.findAllByBusinessTrip_BusinessTripId(reportID);
+//        return createFromEntities(tasks);
+//    }
+//    public List<TaskDTO> findByRateID(Long rateID) {
+//        List<Task> tasks = taskRepository.findAllByBusinessTrip_BusinessTripId(rateID);
+//        return createFromEntities(tasks);
+//    }
     @Override
     public TaskDTO findById(Long id) {
         Optional<Task> taskOptional = taskRepository.findById(id);
-        return taskOptional.map(this::createFromE).orElse(null);
+        return taskOptional.map(this::createFromE)
+                .orElseThrow(() -> new NotFoundException(Task.class, id));
     }
 
     @Override

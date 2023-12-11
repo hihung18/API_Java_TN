@@ -16,7 +16,8 @@ public class BusinessTripDTO {
     private String name_trip;
     private String detail_trip;
     private String location_trip;
-    private String link_googleMap;
+    private Double latitudeTrip;
+    private Double longitudeTrip;
     private Date time_begin_trip;
     private Date time_end_trip;
     private Date time_cre_trip;

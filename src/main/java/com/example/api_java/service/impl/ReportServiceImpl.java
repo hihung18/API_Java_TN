@@ -1,12 +1,11 @@
 package com.example.api_java.service.impl;
 
+import com.example.api_java.exception.NotFoundException;
 import com.example.api_java.model.dto.ReportDTO;
 import com.example.api_java.model.entity.Image;
+import com.example.api_java.model.entity.Rate;
 import com.example.api_java.model.entity.Report;
-import com.example.api_java.repository.IBusinessTripRepository;
-import com.example.api_java.repository.IImageRepository;
-import com.example.api_java.repository.IReportRepository;
-import com.example.api_java.repository.IUserDetailRepository;
+import com.example.api_java.repository.*;
 import com.example.api_java.service.IBaseService;
 import com.example.api_java.service.IModelMapper;
 import org.modelmapper.ModelMapper;
@@ -20,16 +19,14 @@ import java.util.stream.Collectors;
 @Service
 public class ReportServiceImpl implements IBaseService<ReportDTO, Long>, IModelMapper<ReportDTO, Report> {
     private final IReportRepository reportRepository;
-    private final IBusinessTripRepository businessTripRepository;
+    private final ITaskRepository taskRepository;
     private final IImageRepository imageRepository;
-    private final IUserDetailRepository userDetailRepository;
     private final ModelMapper modelMapper;
 
-    public ReportServiceImpl(IReportRepository reportRepository, IBusinessTripRepository businessTripRepository, IImageRepository imageRepository, IUserDetailRepository userDetailRepository, ModelMapper modelMapper) {
+    public ReportServiceImpl(IReportRepository reportRepository,  ITaskRepository taskRepository, IImageRepository imageRepository, ModelMapper modelMapper) {
         this.reportRepository = reportRepository;
-        this.businessTripRepository = businessTripRepository;
+        this.taskRepository = taskRepository;
         this.imageRepository = imageRepository;
-        this.userDetailRepository = userDetailRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -40,8 +37,13 @@ public class ReportServiceImpl implements IBaseService<ReportDTO, Long>, IModelM
         return createFromEntities(reports);
     }
 
-    public List<ReportDTO> findAll(Long businessTripID) {
-        List<Report> reports = reportRepository.findAllByBusinessTrip_BusinessTripId(businessTripID);
+    public List<ReportDTO> findAllByBusinessTripID(Long businessTripID) {
+        List<Report> reports = reportRepository.findAllByBusinessId(businessTripID);
+        setImage(reports);
+        return createFromEntities(reports);
+    }
+    public List<ReportDTO> findAllByTaskID(Long taskID) {
+        List<Report> reports = reportRepository.findAllByTask_TaskId(taskID);
         setImage(reports);
         return createFromEntities(reports);
     }
@@ -50,7 +52,8 @@ public class ReportServiceImpl implements IBaseService<ReportDTO, Long>, IModelM
     public ReportDTO findById(Long id) {
         Optional<Report> reportOptional = reportRepository.findById(id);
         reportOptional.get().setImages(imageRepository.findAllByReport_ReportId(id));
-        return reportOptional.map(this::createFromE).orElse(null);
+        return reportOptional.map(this::createFromE)
+                .orElseThrow(() -> new NotFoundException(Report.class, id));
     }
 
     @Override
@@ -86,8 +89,7 @@ public class ReportServiceImpl implements IBaseService<ReportDTO, Long>, IModelM
     @Override
     public Report createFromD(ReportDTO dto) {
         Report report = modelMapper.map(dto, Report.class);
-        report.setBusinessTrip(businessTripRepository.findById(dto.getBusinessTripID()).orElse(null));
-        report.setUserDetail(userDetailRepository.findById(dto.getUserID()).orElse(null));
+        report.setTask(taskRepository.findById(dto.getTaskID()).orElse(null));
         // Xử lý các đường dẫn hình ảnh và tạo danh sách các đối tượng Image
         List<Image> images = new ArrayList<>();
         if (dto.getImageUrls() != null) {
@@ -106,11 +108,8 @@ public class ReportServiceImpl implements IBaseService<ReportDTO, Long>, IModelM
     @Override
     public ReportDTO createFromE(Report entity) {
         ReportDTO reportDTO = modelMapper.map(entity, ReportDTO.class);
-        if (entity.getBusinessTrip() != null) {
-            reportDTO.setBusinessTripID(entity.getBusinessTrip().getBusinessTripId());
-        }
-        if (entity.getUserDetail() != null) {
-            reportDTO.setUserID(entity.getUserDetail().getUserId());
+        if (entity.getTask() != null) {
+            reportDTO.setTaskID(entity.getTask().getTaskId());
         }
         // Lấy danh sách các đường dẫn hình ảnh từ danh sách Images và set vào ReportDTO
         if (entity.getImages() != null)
