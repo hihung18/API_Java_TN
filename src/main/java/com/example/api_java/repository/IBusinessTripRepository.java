@@ -21,10 +21,5 @@ public interface IBusinessTripRepository extends JpaRepository<BusinessTrip, Lon
     @Query(value = "SELECT distinct bt.* FROM businesstrip bt INNER JOIN task t ON bt.id = t.id_business_trip WHERE t.id_employee = ?1 order by time_begin ASC ", nativeQuery = true)
     List<BusinessTrip> findBusinessTripsByUserDetailUserId(Long userId);
 
-
-//    @EntityGraph(attributePaths = {"tasks"})
-//    @Query("SELECT b FROM BusinessTrip b JOIN b.tasks t WHERE t.userDetail.userId = :userId")
-//    List<BusinessTrip> findBusinessTripsByUserDetailUserId(@Param("userId") Long userId);
-
     List<BusinessTrip> findAllByPartner_PartnerId(Long partnerId);
 }

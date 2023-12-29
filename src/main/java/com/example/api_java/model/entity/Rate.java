@@ -26,17 +26,13 @@ public class Rate {
 
     @Column(name = "time_cre", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:s")
     private Date time_cre_rate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_task")
     private Task task;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "id_business_trip")
-//    private BusinessTrip businessTrip;
-//
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_employee")
     private UserDetail userDetail;

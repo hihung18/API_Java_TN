@@ -42,8 +42,6 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
         this.encoder = encoder;
         this.modelMapper = modelMapper;
     }
-
-
     public ResponseEntity<?> checkLogin(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -115,7 +113,6 @@ public class UserDetailServiceImpl implements IBaseService<UserDetailDTO, Long>,
         if (strRole == null || strRole.equals("")) {
             return roleRepository.findByName(RoleName.ROLE_NV)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-
         } else {
             switch (strRole) {
                 case "ROLE_QL":

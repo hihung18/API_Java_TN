@@ -22,10 +22,7 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
         //lấy thông tin người dùng trả về chuỗi token được mã hóa
-
-        //lấy thông tin người dùng authentication.getPrincipal();
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
         //mã hóa HS512
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))

@@ -40,17 +40,17 @@ public class BusinessTrip {
 
     @Column(name = "time_begin", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date time_begin_trip;
 
     @Column(name = "time_end", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date time_end_trip;
 
     @Column(name = "time_cre", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date time_cre_trip;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -61,13 +61,6 @@ public class BusinessTrip {
     @JoinColumn(name = "id_manager")
     private UserDetail userDetail;
 
-//    @Transient
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "businessTrip")
-//    private List<Report> reports;
-//
-//    @Transient
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "businessTrip")
-//    private List<Rate> rates;
 
     @Transient
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "businessTrip")

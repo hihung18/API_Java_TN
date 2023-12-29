@@ -113,7 +113,6 @@ public class TaskServiceImpl implements IBaseService<TaskDTO, Long>, IModelMappe
         task.setUserDetail(userDetailRepository.findById(dto.getUserID()).orElse(null));
         return task;
     }
-
     @Override
     public TaskDTO createFromE(Task entity) {
         TaskDTO taskDTO = modelMapper.map(entity, TaskDTO.class);
